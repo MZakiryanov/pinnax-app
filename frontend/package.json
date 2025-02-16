@@ -2,7 +2,7 @@
   "name": "pinnax-app-root",
   "private": true,
   "version": "0.0.0",
-  "homepage": "https://mzakiryanov.github.io/pinnex-app",
+  "homepage": "https://mzakiryanov.github.io/pinnax-app",
   "type": "module",
   "scripts": {
     "dev": "vite",
