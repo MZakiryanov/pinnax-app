@@ -4,7 +4,7 @@ import path from 'path'
 
 export default defineConfig({
   plugins: [react()],
-  base: '/pinnex-app/',
+  base: '/pinnax-app/',  // Это важная строка для GitHub Pages
   server: {
     port: 5173,
     proxy: {

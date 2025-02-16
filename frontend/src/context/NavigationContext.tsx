@@ -22,12 +22,12 @@ interface NavigationContextType {
 
 const NavigationContext = createContext<NavigationContextType | undefined>(undefined);
 
-// Определяем базовый путь для GitHub Pages
-const basename = process.env.NODE_ENV === 'production' ? '/pinnex-app' : '';
-
 export const NavigationProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [currentPage, setCurrentPage] = useState<'home' | 'personal'>('home');
   const [currentSection, setCurrentSection] = useState<Section>('dashboard');
+
+  // Определяем базовый путь для GitHub Pages
+  const basename = '/pinnax-app';
 
   // При инициализации проверяем URL
   useEffect(() => {
@@ -40,10 +40,9 @@ export const NavigationProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   const navigateTo = (page: 'home' | 'personal') => {
     setCurrentPage(page);
     if (page === 'home') {
-      setCurrentSection('dashboard');
-      window.history.pushState({}, '', basename + '/');
+      window.history.pushState({}, '', `${basename}/`);
     } else {
-      window.history.pushState({}, '', basename + '/personal');
+      window.history.pushState({}, '', `${basename}/personal`);
     }
   };
 
