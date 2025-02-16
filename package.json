@@ -1,0 +1,17 @@
+{
+  "name": "pinnax-app-root",
+  "private": true,
+  "version": "0.0.0",
+  "homepage": "https://mzakiryanov.github.io/pinnex-app",
+  "type": "module",
+  "scripts": {
+    "dev": "cd frontend && npm run dev",
+    "build": "cd frontend && npm run build",
+    "preview": "cd frontend && npm run preview",
+    "predeploy": "cd frontend && npm run build",
+    "deploy": "gh-pages -d frontend/dist"
+  },
+  "devDependencies": {
+    "gh-pages": "^6.1.1"
+  }
+}
