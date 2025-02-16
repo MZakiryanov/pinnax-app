@@ -1,6 +1,6 @@
 // src/components/personal/Layout/PersonalLayout.tsx
 import React from 'react';
-import { useNavigation, type Section } from '@/context/NavigationContext';
+import { useNavigation } from '@/context/NavigationContext';
 import { 
   LayoutDashboard, 
   ShoppingCart,
