@@ -1,101 +1,296 @@
-// src/components/personal/sections/DashboardSection/index.tsx
-import React from 'react';
-import { Search, Plus } from 'lucide-react';
+import React, { useState } from 'react';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
-interface StatCardProps {
-  title: string;
-  value: string;
-  change: string;
-  positive?: boolean;
+// Types
+type Period = 'day' | 'week' | 'month' | 'quarter' | 'year';
+type MetricType = 'revenue' | 'averageCheck' | 'orders' | 'clients' | 'conversion';
+
+interface Metric {
+  value: string | number;
+  change: number;
+  trend: 'up' | 'down' | 'neutral';
 }
 
-const StatCard: React.FC<StatCardProps> = ({ title, value, change, positive = true }) => (
-  <div className="bg-white p-6 rounded-lg shadow-sm">
-    <h3 className="text-sm font-medium text-gray-500">{title}</h3>
-    <div className="mt-2 flex items-baseline">
-      <p className="text-2xl font-semibold text-gray-900">{value}</p>
-      <p className={`ml-2 text-sm font-medium ${positive ? 'text-green-600' : 'text-red-600'}`}>
-        {change}
-      </p>
-    </div>
-  </div>
-);
+interface DashboardMetrics {
+  revenue: Metric;
+  averageCheck: Metric;
+  orders: Metric;
+  clients: Metric;
+  conversion: Metric;
+}
+
+// Helper function для метрик
+const getMetricInfo = (type: MetricType): { title: string; suffix: string } => {
+  switch (type) {
+    case 'revenue':
+      return { title: 'Выручка', suffix: ' ₸' };
+    case 'averageCheck':
+      return { title: 'Средний чек', suffix: ' ₸' };
+    case 'orders':
+      return { title: 'Заказы', suffix: '' };
+    case 'clients':
+      return { title: 'Клиенты', suffix: '' };
+    case 'conversion':
+      return { title: 'Конверсия', suffix: '%' };
+  }
+};
+
+// Generate distribution data
+const generateDistributionData = (periodType: Period, metricType: MetricType) => {
+  const getBaseValue = () => {
+    switch (metricType) {
+      case 'revenue': return Math.floor(Math.random() * 1000000) + 500000;
+      case 'averageCheck': return Math.floor(Math.random() * 15000) + 8000;
+      case 'orders': return Math.floor(Math.random() * 50) + 10;
+      case 'clients': return Math.floor(Math.random() * 30) + 5;
+      case 'conversion': return Math.floor(Math.random() * 40) + 20;
+    }
+  };
+
+  // Get current date for calculations
+  const currentDate = new Date();
+  const currentMonth = currentDate.getMonth();
+  const currentYear = currentDate.getFullYear();
+
+  const getCurrentQuarter = (date: Date): number => {
+    return Math.floor(date.getMonth() / 3) + 1;
+  };
+
+  const getQuarterStartWeek = (quarter: number): number => {
+    return (quarter - 1) * 13 + 1;
+  };
+
+  switch (periodType) {
+    case 'day':
+      return Array.from({ length: 24 }, (_, i) => ({
+        name: i % 4 === 0 ? `${i.toString().padStart(2, '0')}:00` : '',
+        displayName: `${i.toString().padStart(2, '0')}:00`,
+        value: getBaseValue()
+      }));
+    case 'week':
+      return [
+        { name: 'Пн', value: getBaseValue() },
+        { name: 'Вт', value: getBaseValue() },
+        { name: 'Ср', value: getBaseValue() },
+        { name: 'Чт', value: getBaseValue() },
+        { name: 'Пт', value: getBaseValue() },
+        { name: 'Сб', value: getBaseValue() },
+        { name: 'Вс', value: getBaseValue() },
+      ];
+    case 'month':
+      // Calculate first day of current month
+      const firstDay = new Date(currentYear, currentMonth, 1);
+      const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+      
+      return Array.from({ length: daysInMonth }, (_, i) => {
+        const currentDay = new Date(firstDay);
+        currentDay.setDate(i + 1);
+        const isSunday = currentDay.getDay() === 0;
+        return {
+          name: isSunday ? 'Вс' : '', // Показываем только воскресенья на оси
+          displayName: (i + 1).toString(), // Полная дата для tooltip
+          value: getBaseValue(),
+          isSunday
+        };
+      });
+    case 'quarter':
+      const currentQuarter = getCurrentQuarter(currentDate);
+      const startWeek = getQuarterStartWeek(currentQuarter);
+      
+      return Array.from({ length: 13 }, (_, i) => {
+        const weekNumber = startWeek + i;
+        return {
+          name: `${weekNumber}`, // Номер недели с начала года
+          displayName: `Неделя ${weekNumber}`,
+          value: getBaseValue()
+        };
+      });
+    case 'year':
+      return [
+        { name: 'Янв', value: getBaseValue() },
+        { name: 'Фев', value: getBaseValue() },
+        { name: 'Мар', value: getBaseValue() },
+        { name: 'Апр', value: getBaseValue() },
+        { name: 'Май', value: getBaseValue() },
+        { name: 'Июн', value: getBaseValue() },
+        { name: 'Июл', value: getBaseValue() },
+        { name: 'Авг', value: getBaseValue() },
+        { name: 'Сен', value: getBaseValue() },
+        { name: 'Окт', value: getBaseValue() },
+        { name: 'Ноя', value: getBaseValue() },
+        { name: 'Дек', value: getBaseValue() },
+      ];
+  }
+};
+
+// Mock data generator
+const generateMetrics = (): DashboardMetrics => {
+  const randomChange = () => (Math.random() * 20 - 10).toFixed(1);
+  const randomTrend = (change: number): 'up' | 'down' | 'neutral' => {
+    if (change > 0) return 'up';
+    if (change < 0) return 'down';
+    return 'neutral';
+  };
+
+  const createMetric = (baseValue: number): Metric => {
+    const change = Number(randomChange());
+    return {
+      value: baseValue.toLocaleString(),
+      change,
+      trend: randomTrend(change)
+    };
+  };
+
+  return {
+    revenue: createMetric(2450000),
+    averageCheck: createMetric(12500),
+    orders: createMetric(196),
+    clients: createMetric(145),
+    conversion: createMetric(32),
+  };
+};
 
 const DashboardSection: React.FC = () => {
+  const [period, setPeriod] = useState<Period>('day');
+  const [selectedMetric, setSelectedMetric] = useState<MetricType>('orders');
+  const [metrics] = useState<DashboardMetrics>(generateMetrics());
+  const [distributionData, setDistributionData] = useState(generateDistributionData('day', 'orders'));
+
+  const handlePeriodChange = (newPeriod: Period) => {
+    setPeriod(newPeriod);
+    setDistributionData(generateDistributionData(newPeriod, selectedMetric));
+  };
+
+  const handleMetricChange = (e: React.ChangeEvent<HTMLSelectElement>) => {const newMetric = e.target.value as MetricType;
+    setSelectedMetric(newMetric);
+    setDistributionData(generateDistributionData(period, newMetric));
+  };
+
+  const getPeriodTitle = (p: Period): string => {
+    switch (p) {
+      case 'day': return 'День';
+      case 'week': return 'Неделя';
+      case 'month': return 'Месяц';
+      case 'quarter': return 'Квартал';
+      case 'year': return 'Год';
+    }
+  };
+
+  const MetricItem: React.FC<{
+    type: MetricType;
+    metric: Metric;
+  }> = ({ type, metric }) => {
+    const { title, suffix } = getMetricInfo(type);
+    
+    return (
+      <div className="flex flex-col items-center">
+        <h3 className="text-sm font-medium text-[#A7ABAA] mb-1">{title}</h3>
+        <div className="flex items-baseline space-x-2">
+          <p className="text-lg font-semibold text-[#465357]">
+            {metric.value}
+            {suffix}
+          </p>
+          <span className={`text-sm font-medium ${
+            metric.trend === 'up' ? 'text-[#245D33]' :
+            metric.trend === 'down' ? 'text-[#FF4444]' :
+            'text-[#A7ABAA]'
+          }`}>
+            {metric.change > 0 ? '+' : ''}{metric.change}%
+          </span>
+        </div>
+      </div>
+    );
+  };
+
+  const CustomTooltip = ({ active, payload }: any) => {
+    if (active && payload && payload.length) {
+      const data = payload[0].payload;
+      return (
+        <div className="bg-white p-2 border border-[#A7ABAA] rounded-lg">
+          <p className="text-sm text-[#465357]">{data.displayName || data.name}</p>
+          <p className="text-sm font-medium text-[#245D33]">
+            {payload[0].value.toLocaleString()}{getMetricInfo(selectedMetric).suffix}
+          </p>
+        </div>
+      );
+    }
+    return null;
+  };
+
   return (
-    <div>
-      {/* Верхняя панель с поиском и кнопкой */}
-      <div className="flex justify-between items-center mb-8">
-        <div className="relative">
-          <input
-            type="text"
-            placeholder="Поиск..."
-            className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-          <Search className="w-5 h-5 text-gray-400 absolute left-3 top-2.5" />
+    <div className="space-y-6">
+      {/* Period Selection */}
+      <div className="bg-white rounded-lg shadow-sm p-4">
+        <div className="flex justify-center space-x-2">
+          {(['day', 'week', 'month', 'quarter', 'year'] as Period[]).map((p) => (
+            <button
+              key={p}
+              onClick={() => handlePeriodChange(p)}
+              className={`px-4 py-2 rounded-lg transition-colors duration-200 ${
+                period === p
+                  ? 'bg-[#245D33]/10 text-[#245D33]'
+                  : 'text-[#465357] hover:bg-[#EFF6EF]'
+              }`}
+            >
+              {getPeriodTitle(p)}
+            </button>
+          ))}
         </div>
-        <button className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
-          <Plus className="w-5 h-5 mr-2" />
-          Новый заказ
-        </button>
       </div>
 
-      {/* Статистика */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <StatCard title="Заказы" value="156" change="+12.5%" />
-        <StatCard title="Активные чаты" value="23" change="+18.2%" />
-        <StatCard title="Клиенты" value="1,205" change="+5.4%" />
-        <StatCard title="Выручка" value="2.4M ₸" change="-4.3%" positive={false} />
-      </div>
-
-      {/* Таблица последних заказов */}
-      <div className="bg-white rounded-lg shadow-sm">
-        <div className="px-6 py-4 border-b border-gray-200">
-          <h2 className="text-lg font-medium text-gray-900">Последние заказы</h2>
+      {/* Main Dashboard Content */}
+      <div className="bg-white rounded-lg shadow-sm p-6">
+        <h2 className="text-xl font-medium text-[#465357] mb-6">
+          Статистика за {getPeriodTitle(period).toLowerCase()}
+        </h2>
+        
+        {/* Metrics Grid */}
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
+          {(Object.keys(metrics) as MetricType[]).map((type) => (
+            <MetricItem
+              key={type}
+              type={type}
+              metric={metrics[type]}
+            />
+          ))}
         </div>
-        <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
-              <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">ID</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Клиент</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Сумма</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Статус</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Дата</th>
-              </tr>
-            </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              {[
-                { id: '#1234', client: 'Алия Сатпаева', amount: '45,000 ₸', status: 'Оплачен', date: '14.02.2025' },
-                { id: '#1233', client: 'Марат Алиев', amount: '32,000 ₸', status: 'В обработке', date: '14.02.2025' },
-                { id: '#1232', client: 'Айдар Касымов', amount: '78,000 ₸', status: 'Доставлен', date: '13.02.2025' }
-              ].map((order) => (
-                <tr key={order.id}>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                    {order.id}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {order.client}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {order.amount}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                      order.status === 'Оплачен' ? 'bg-green-100 text-green-800' :
-                      order.status === 'В обработке' ? 'bg-yellow-100 text-yellow-800' :
-                      'bg-blue-100 text-blue-800'
-                    }`}>
-                      {order.status}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {order.date}
-                  </td>
-                </tr>
+
+        {/* Distribution Chart */}
+        <div>
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-base font-medium text-[#465357]">
+              Распределение по периодам
+            </h3>
+            <select
+              value={selectedMetric}
+              onChange={handleMetricChange}
+              className="px-3 py-2 border border-[#A7ABAA] rounded-lg focus:ring-2 focus:ring-[#245D33] focus:border-transparent"
+            >
+              {(Object.keys(metrics) as MetricType[]).map((type) => (
+                <option key={type} value={type}>
+                  {getMetricInfo(type).title}
+                </option>
               ))}
-            </tbody>
-          </table>
+            </select>
+          </div>
+          <div className="h-64">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={distributionData}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#A7ABAA" />
+                <XAxis 
+                  dataKey="name" 
+                  tick={{ fill: '#465357' }}
+                />
+                <YAxis tick={{ fill: '#465357' }} />
+                <Tooltip content={<CustomTooltip />} />
+                <Bar 
+                  dataKey="value" 
+                  fill="#245D33" 
+                  name={getMetricInfo(selectedMetric).title}
+                />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
         </div>
       </div>
     </div>

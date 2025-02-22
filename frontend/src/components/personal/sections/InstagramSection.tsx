@@ -230,9 +230,6 @@ const InstagramSection: React.FC = () => {
                       </div>
                     </div>
                   </div>
-                  <button className="p-2 hover:bg-gray-100 rounded-full">
-                    <Heart className="w-5 h-5 text-gray-500" />
-                  </button>
                 </div>
               </div>
 

@@ -1,0 +1,66 @@
+{
+  "navbar": {
+    "title": "Pinnax App",
+    "home": "Home",
+    "about": "About",
+    "contact": "Contact",
+    "login": "Login",
+    "register": "Register"
+  },
+  "hero": {
+    "title": "Automate Customer Communication in WhatsApp",
+    "description": "Receive orders, send notifications, and manage all chats in one place",
+    "cta": "Try for Free"
+  },
+  "features": {
+    "autoReply": {
+      "title": "Automatic Responses",
+      "description": "Instant answers to typical customer questions"
+    },
+    "orderManagement": {
+      "title": "Order Management",
+      "description": "All orders in one interface with communication history"
+    },
+    "analytics": {
+      "title": "Analytics",
+      "description": "Reports on sales and communication effectiveness"
+    }
+  },
+  "pricing": {
+    "title": "Pricing Plans",
+    "subtitle": "Choose a plan that suits your business",
+    "monthly": "Month",
+    "annual": "Year",
+    "discount": "(-20%)",
+    "togglePeriod": "Toggle pricing period",
+    "plans": {
+      "basic": {
+        "title": "Basic",
+        "features": {
+          "1": "Up to 500 clients",
+          "2": "Auto-responses",
+          "3": "Basic analytics"
+        }
+      },
+      "business": {
+        "title": "Business",
+        "features": {
+          "1": "Up to 2000 clients",
+          "2": "Extended analytics",
+          "3": "Loyalty program"
+        }
+      },
+      "premium": {
+        "title": "Premium",
+        "features": {
+          "1": "Unlimited clients",
+          "2": "Full analytics",
+          "3": "API integration"
+        }
+      }
+    }
+  },
+  "footer": {
+    "copyright": "© 2025 PinnaX. All rights reserved."
+  }
+}

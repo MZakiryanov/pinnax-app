@@ -53,10 +53,19 @@ const OrdersSection: React.FC = () => {
 
   const getStatusColor = (status: Order['status']) => {
     switch (status) {
-      case 'delivered': return 'bg-green-100 text-green-800';
-      case 'processing': return 'bg-yellow-100 text-yellow-800';
-      case 'pending': return 'bg-blue-100 text-blue-800';
-      case 'cancelled': return 'bg-red-100 text-red-800';
+      case 'delivered': return 'bg-[#245D33]/20 text-[#245D33]';
+      case 'processing': return 'bg-[#A7ABAA]/20 text-[#465357]';
+      case 'pending': return 'bg-[#245D33]/10 text-[#245D33]';
+      case 'cancelled': return 'bg-[#FF4444]/20 text-[#FF4444]';
+    }
+  };
+
+  const getStatusText = (status: Order['status']) => {
+    switch (status) {
+      case 'delivered': return 'Доставлен';
+      case 'processing': return 'В обработке';
+      case 'pending': return 'Ожидание';
+      case 'cancelled': return 'Отменен';
     }
   };
 
@@ -71,41 +80,43 @@ const OrdersSection: React.FC = () => {
   return (
     <div>
       {/* Верхняя панель */}
-      <div className="flex justify-between items-center mb-6">
-        <div className="relative flex-1 mr-4">
-          <input
-            type="text"
-            placeholder="Поиск заказа..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-          <Search className="w-5 h-5 text-gray-400 absolute left-3 top-2.5" />
-        </div>
-
-        <div className="flex space-x-2">
-          <div className="relative">
-            <select
-              value={filterStatus}
-              onChange={(e) => setFilterStatus(e.target.value as Order['status'] | 'all')}
-              className="px-4 py-2 border border-gray-300 rounded-lg appearance-none"
-            >
-              {statusOptions.map(option => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
-            <Filter className="w-5 h-5 text-gray-400 absolute right-3 top-2.5 pointer-events-none" />
+      <div className="bg-[#EFF6EF] rounded-lg shadow-sm p-4 mb-6">
+        <div className="flex flex-col md:flex-row gap-4 justify-between items-start md:items-center">
+          <div className="relative flex-1 w-full md:max-w-md">
+            <input
+              type="text"
+              placeholder="Поиск заказа..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full pl-10 pr-4 py-2 border border-[#A7ABAA] rounded-lg focus:ring-2 focus:ring-[#245D33] focus:border-transparent"
+            />
+            <Search className="w-5 h-5 text-[#A7ABAA] absolute left-3 top-2.5" />
           </div>
-          <button className="flex items-center px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">
-            <Download className="w-5 h-5 mr-2" />
-            Экспорт
-          </button>
-          <button className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
-            <Plus className="w-5 h-5 mr-2" />
-            Новый заказ
-          </button>
+
+          <div className="flex gap-2 w-full md:w-auto">
+            <div className="relative">
+              <select
+                value={filterStatus}
+                onChange={(e) => setFilterStatus(e.target.value as Order['status'] | 'all')}
+                className="pl-4 pr-10 py-2 border border-[#A7ABAA] rounded-lg appearance-none focus:ring-2 focus:ring-[#245D33] focus:border-transparent"
+              >
+                {statusOptions.map(option => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+              <Filter className="w-5 h-5 text-[#A7ABAA] absolute right-3 top-2.5 pointer-events-none" />
+            </div>
+            <button className="flex items-center px-4 py-2 border border-[#A7ABAA] rounded-lg hover:bg-[#EFF6EF] text-[#465357]">
+              <Download className="w-5 h-5 mr-2" />
+              Экспорт
+            </button>
+            <button className="flex items-center px-4 py-2 bg-[#245D33] text-white rounded-lg hover:bg-[#245D33]/90 transition-colors duration-200">
+              <Plus className="w-5 h-5 mr-2" />
+              Новый заказ
+            </button>
+          </div>
         </div>
       </div>
 
@@ -114,30 +125,28 @@ const OrdersSection: React.FC = () => {
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
-              <tr className="bg-gray-50 border-b">
-                <th className="p-3 text-left text-xs font-medium text-gray-500 uppercase">Номер</th>
-                <th className="p-3 text-left text-xs font-medium text-gray-500 uppercase">Клиент</th>
-                <th className="p-3 text-left text-xs font-medium text-gray-500 uppercase">Товары</th>
-                <th className="p-3 text-left text-xs font-medium text-gray-500 uppercase">Сумма</th>
-                <th className="p-3 text-left text-xs font-medium text-gray-500 uppercase">Статус</th>
-                <th className="p-3 text-left text-xs font-medium text-gray-500 uppercase">Дата</th>
+              <tr className="bg-[#EFF6EF]">
+                <th className="px-6 py-3 text-left text-xs font-medium text-[#A7ABAA] uppercase">Номер</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-[#A7ABAA] uppercase">Клиент</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-[#A7ABAA] uppercase">Товары</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-[#A7ABAA] uppercase">Сумма</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-[#A7ABAA] uppercase">Статус</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-[#A7ABAA] uppercase">Дата</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="divide-y divide-[#A7ABAA]/10">
               {filteredOrders.map((order) => (
-                <tr key={order.id} className="border-b hover:bg-gray-50">
-                  <td className="p-3 text-sm font-medium text-gray-900">{order.id}</td>
-                  <td className="p-3 text-sm text-gray-500">{order.client}</td>
-                  <td className="p-3 text-sm text-gray-500">{order.products.join(', ')}</td>
-                  <td className="p-3 text-sm text-gray-500">{order.amount}</td>
-                  <td className="p-3">
-                    <span className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusColor(order.status)}`}>
-                      {order.status === 'delivered' ? 'Доставлен' :
-                       order.status === 'processing' ? 'В обработке' :
-                       order.status === 'pending' ? 'Ожидание' : 'Отменен'}
+                <tr key={order.id} className="hover:bg-[#EFF6EF]">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-[#245D33]">{order.id}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-[#465357]">{order.client}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-[#465357]">{order.products.join(', ')}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-[#465357]">{order.amount}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(order.status)}`}>
+                      {getStatusText(order.status)}
                     </span>
                   </td>
-                  <td className="p-3 text-sm text-gray-500">{order.date}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-[#465357]">{order.date}</td>
                 </tr>
               ))}
             </tbody>

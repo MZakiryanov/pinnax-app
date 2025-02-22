@@ -38,8 +38,8 @@ const AnalyticsSection: React.FC = () => {
               onClick={() => setDateRange('week')}
               className={`px-4 py-2 rounded-lg ${
                 dateRange === 'week'
-                  ? 'bg-blue-50 text-blue-700'
-                  : 'text-gray-700 hover:bg-gray-50'
+                  ? 'bg-[#245D33]/10 text-[#245D33]'
+                  : 'text-[#465357] hover:bg-[#EFF6EF]'
               }`}
             >
               Неделя
@@ -48,8 +48,8 @@ const AnalyticsSection: React.FC = () => {
               onClick={() => setDateRange('month')}
               className={`px-4 py-2 rounded-lg ${
                 dateRange === 'month'
-                  ? 'bg-blue-50 text-blue-700'
-                  : 'text-gray-700 hover:bg-gray-50'
+                  ? 'bg-[#245D33]/10 text-[#245D33]'
+                  : 'text-[#465357] hover:bg-[#EFF6EF]'
               }`}
             >
               Месяц
@@ -58,8 +58,8 @@ const AnalyticsSection: React.FC = () => {
               onClick={() => setDateRange('quarter')}
               className={`px-4 py-2 rounded-lg ${
                 dateRange === 'quarter'
-                  ? 'bg-blue-50 text-blue-700'
-                  : 'text-gray-700 hover:bg-gray-50'
+                  ? 'bg-[#245D33]/10 text-[#245D33]'
+                  : 'text-[#465357] hover:bg-[#EFF6EF]'
               }`}
             >
               Квартал
@@ -69,12 +69,12 @@ const AnalyticsSection: React.FC = () => {
             <div className="relative">
               <input
                 type="date"
-                className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                className="pl-10 pr-4 py-2 border border-[#A7ABAA] rounded-lg focus:ring-2 focus:ring-[#245D33] focus:border-transparent"
               />
-              <Calendar className="w-5 h-5 text-gray-400 absolute left-3 top-2.5" />
+              <Calendar className="w-5 h-5 text-[#A7ABAA] absolute left-3 top-2.5" />
             </div>
-            <button className="flex items-center px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">
-              <Download className="w-5 h-5 mr-2" />
+            <button className="flex items-center px-4 py-2 border border-[#A7ABAA] rounded-lg hover:bg-[#EFF6EF]">
+              <Download className="w-5 h-5 mr-2 text-[#465357]" />
               Экспорт
             </button>
           </div>
@@ -84,51 +84,57 @@ const AnalyticsSection: React.FC = () => {
       {/* Статистика */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <div className="bg-white p-6 rounded-lg shadow-sm">
-          <h3 className="text-sm font-medium text-gray-500">Выручка</h3>
-          <p className="text-2xl font-semibold mt-2">4.16M ₸</p>
-          <span className="text-sm text-green-600">+12.5% с прошлого периода</span>
+          <h3 className="text-sm font-medium text-[#A7ABAA]">Выручка</h3>
+          <p className="text-2xl font-semibold mt-2 text-[#465357]">4.16M ₸</p>
+          <span className="text-sm text-[#245D33]">+12.5% с прошлого периода</span>
         </div>
         <div className="bg-white p-6 rounded-lg shadow-sm">
-          <h3 className="text-sm font-medium text-gray-500">Заказов</h3>
-          <p className="text-2xl font-semibold mt-2">416</p>
-          <span className="text-sm text-green-600">+8.2% с прошлого периода</span>
+          <h3 className="text-sm font-medium text-[#A7ABAA]">Заказов</h3>
+          <p className="text-2xl font-semibold mt-2 text-[#465357]">416</p>
+          <span className="text-sm text-[#245D33]">+8.2% с прошлого периода</span>
         </div>
         <div className="bg-white p-6 rounded-lg shadow-sm">
-          <h3 className="text-sm font-medium text-gray-500">Средний чек</h3>
-          <p className="text-2xl font-semibold mt-2">10,000 ₸</p>
-          <span className="text-sm text-green-600">+4.3% с прошлого периода</span>
+          <h3 className="text-sm font-medium text-[#A7ABAA]">Средний чек</h3>
+          <p className="text-2xl font-semibold mt-2 text-[#465357]">10,000 ₸</p>
+          <span className="text-sm text-[#245D33]">+4.3% с прошлого периода</span>
         </div>
         <div className="bg-white p-6 rounded-lg shadow-sm">
-          <h3 className="text-sm font-medium text-gray-500">Новых клиентов</h3>
-          <p className="text-2xl font-semibold mt-2">64</p>
-          <span className="text-sm text-green-600">+15.7% с прошлого периода</span>
+          <h3 className="text-sm font-medium text-[#A7ABAA]">Новых клиентов</h3>
+          <p className="text-2xl font-semibold mt-2 text-[#465357]">64</p>
+          <span className="text-sm text-[#245D33]">+15.7% с прошлого периода</span>
         </div>
       </div>
 
       {/* График продаж */}
       <div className="bg-white p-6 rounded-lg shadow-sm">
-        <h2 className="text-lg font-medium mb-4">Динамика продаж</h2>
+        <h2 className="text-lg font-medium text-[#465357] mb-4">Динамика продаж</h2>
         <div className="h-[400px]">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={salesData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="date" />
-              <YAxis yAxisId="left" />
-              <YAxis yAxisId="right" orientation="right" />
-              <Tooltip />
+              <CartesianGrid strokeDasharray="3 3" stroke={`#A7ABAA`} />
+              <XAxis dataKey="date" tick={{ fill: '#465357' }} />
+              <YAxis yAxisId="left" tick={{ fill: '#465357' }} />
+              <YAxis yAxisId="right" orientation="right" tick={{ fill: '#465357' }} />
+              <Tooltip 
+                contentStyle={{ 
+                  backgroundColor: '#FFFFFF',
+                  border: '1px solid #A7ABAA',
+                  borderRadius: '8px'
+                }}
+              />
               <Legend />
               <Line
                 yAxisId="left"
                 type="monotone"
                 dataKey="orders"
-                stroke="#3B82F6"
+                stroke="#245D33"
                 name="Заказы"
               />
               <Line
                 yAxisId="right"
                 type="monotone"
                 dataKey="revenue"
-                stroke="#10B981"
+                stroke="#A7ABAA"
                 name="Выручка"
               />
             </LineChart>
@@ -138,17 +144,23 @@ const AnalyticsSection: React.FC = () => {
 
       {/* График удержания клиентов */}
       <div className="bg-white p-6 rounded-lg shadow-sm">
-        <h2 className="text-lg font-medium mb-4">Структура клиентской базы</h2>
+        <h2 className="text-lg font-medium text-[#465357] mb-4">Структура клиентской базы</h2>
         <div className="h-[400px]">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={clientRetentionData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="month" />
-              <YAxis />
-              <Tooltip />
+              <CartesianGrid strokeDasharray="3 3" stroke={`#A7ABAA`} />
+              <XAxis dataKey="month" tick={{ fill: '#465357' }} />
+              <YAxis tick={{ fill: '#465357' }} />
+              <Tooltip 
+                contentStyle={{ 
+                  backgroundColor: '#FFFFFF',
+                  border: '1px solid #A7ABAA',
+                  borderRadius: '8px'
+                }}
+              />
               <Legend />
-              <Bar dataKey="newClients" name="Новые клиенты" fill="#3B82F6" />
-              <Bar dataKey="returnClients" name="Повторные клиенты" fill="#10B981" />
+              <Bar dataKey="newClients" name="Новые клиенты" fill="#245D33" />
+              <Bar dataKey="returnClients" name="Повторные клиенты" fill="#A7ABAA" />
             </BarChart>
           </ResponsiveContainer>
         </div>

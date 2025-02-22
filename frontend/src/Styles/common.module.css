@@ -1,23 +1,30 @@
-.button {
+/* src/Styles/common.module.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .button {
     @apply px-4 py-2 rounded-lg transition-colors duration-200;
   }
-  
+
   .buttonPrimary {
-    @apply bg-blue-600 text-white hover:bg-blue-700;
+    @apply bg-primary text-white hover:bg-primary/90;
   }
-  
+
   .buttonSecondary {
-    @apply bg-white text-gray-700 hover:bg-gray-50;
+    @apply bg-secondary text-white hover:bg-secondary/90;
   }
-  
+
   .container {
     @apply max-w-6xl mx-auto px-4;
   }
-  
+
   .heading {
-    @apply text-2xl font-bold text-gray-900;
+    @apply text-2xl font-bold text-text;
   }
-  
+
   .text {
-    @apply text-gray-600;
+    @apply text-secondary;
   }
+}

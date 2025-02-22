@@ -1,21 +1,36 @@
 // src/components/layout/Header.tsx
 import React from 'react';
-import '../../Styles/layout/Header.module.css';
+import { COLORS } from '@/theme/colors';
+import { TEXT_STYLES } from '@/theme/typography';
+import { COMPONENT_STYLES } from '@/theme/components';
+import { useTranslation } from 'react-i18next';
+import { useNavigation } from '@/context/NavigationContext';
 
 const Header: React.FC = () => {
+  const { t } = useTranslation();
+  const { navigateTo } = useNavigation();
+
   return (
     <nav className="bg-white shadow-sm">
       <div className="max-w-6xl mx-auto px-4">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
-            <div className="text-xl font-bold text-blue-600">PinnaX</div>
+            <div className={`${TEXT_STYLES.h2} text-[${COLORS.primary}]`}>
+              PinnaX
+            </div>
           </div>
           <div className="flex items-center space-x-4">
-            <button className="text-gray-700 hover:text-gray-900 px-4 py-2 rounded-lg hover:bg-gray-50">
-              Войти
+            <button 
+              onClick={() => navigateTo('personal')}
+              className={`${COMPONENT_STYLES.button.base} text-[${COLORS.text}] hover:text-[${COLORS.primary}] hover:bg-[${COLORS.background}]`}
+            >
+              {t('navbar.login')}
             </button>
-            <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
-              Регистрация
+            <button 
+              onClick={() => navigateTo('personal')}
+              className={`${COMPONENT_STYLES.button.primary}`}
+            >
+              {t('navbar.register')}
             </button>
           </div>
         </div>

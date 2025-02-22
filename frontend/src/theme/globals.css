@@ -1,0 +1,30 @@
+/* src/theme/globals.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /* Применяем шрифт глобально */
+  html {
+    font-family: ui-sans-serif, -apple-system, system-ui, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
+  }
+
+  body {
+    @apply bg-[#EFF6EF] text-[#465357];
+  }
+}
+
+/* Общие компоненты */
+@layer components {
+  .btn-primary {
+    @apply bg-[#245D33] text-white px-4 py-2 rounded-lg hover:bg-[#245D33]/90 transition-colors duration-200;
+  }
+
+  .btn-secondary {
+    @apply bg-[#A7ABAA] text-white px-4 py-2 rounded-lg hover:bg-[#A7ABAA]/90 transition-colors duration-200;
+  }
+
+  .input-base {
+    @apply bg-white border border-[#A7ABAA] rounded-lg px-4 py-2 focus:ring-2 focus:ring-[#245D33] focus:border-transparent;
+  }
+}

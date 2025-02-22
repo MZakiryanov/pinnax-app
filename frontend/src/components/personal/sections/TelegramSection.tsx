@@ -1,6 +1,6 @@
-// src/components/personal/sections/TelegramSection.tsx
 import React, { useState } from 'react';
-import { Search, Phone, MoreVertical, Paperclip, Send } from 'lucide-react';
+//import { Search, Phone, MoreVertical, Paperclip, Send } from 'lucide-react';
+import { Search, Paperclip, Send } from 'lucide-react';
 
 interface Chat {
   id: string;
@@ -77,24 +77,24 @@ const TelegramSection: React.FC = () => {
   return (
     <div className="h-[calc(100vh-180px)] bg-white rounded-lg shadow-sm overflow-hidden flex flex-col">
       {/* Статистика */}
-      <div className="w-full bg-white border-b border-gray-200">
+      <div className="w-full bg-white border-b border-[#A7ABAA]/20">
         <div className="flex items-center justify-between px-6 py-4">
           <div className="flex items-center space-x-2">
-            <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-            <span className="text-sm font-medium">Telegram подключен</span>
+            <div className="w-2 h-2 bg-[#245D33] rounded-full"></div>
+            <span className="text-sm font-medium text-[#465357]">Telegram подключен</span>
           </div>
           <div className="flex space-x-8">
             <div>
-              <div className="text-sm text-gray-600">Конверсия в заказы</div>
-              <div className="text-lg font-semibold">32%</div>
+              <div className="text-sm text-[#A7ABAA]">Конверсия в заказы</div>
+              <div className="text-lg font-semibold text-[#465357]">32%</div>
             </div>
             <div>
-              <div className="text-sm text-gray-600">Среднее время ответа</div>
-              <div className="text-lg font-semibold">1.8 мин</div>
+              <div className="text-sm text-[#A7ABAA]">Среднее время ответа</div>
+              <div className="text-lg font-semibold text-[#465357]">1.8 мин</div>
             </div>
             <div>
-              <div className="text-sm text-gray-600">Активные чаты</div>
-              <div className="text-lg font-semibold">18</div>
+              <div className="text-sm text-[#A7ABAA]">Активные чаты</div>
+              <div className="text-lg font-semibold text-[#465357]">18</div>
             </div>
           </div>
         </div>
@@ -102,15 +102,15 @@ const TelegramSection: React.FC = () => {
 
       <div className="flex flex-1">
         {/* Список чатов */}
-        <div className="w-80 border-r border-gray-200 flex flex-col">
-          <div className="p-4 border-b border-gray-200">
+        <div className="w-80 border-r border-[#A7ABAA]/20 flex flex-col">
+          <div className="p-4 border-b border-[#A7ABAA]/20">
             <div className="relative">
               <input
                 type="text"
                 placeholder="Поиск в Telegram..."
-                className="w-full pl-10 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full pl-10 pr-4 py-2 bg-[#EFF6EF] border border-[#A7ABAA]/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#245D33]"
               />
-              <Search className="w-5 h-5 text-gray-400 absolute left-3 top-2.5" />
+              <Search className="w-5 h-5 text-[#A7ABAA] absolute left-3 top-2.5" />
             </div>
           </div>
 
@@ -119,8 +119,8 @@ const TelegramSection: React.FC = () => {
               <div
                 key={chat.id}
                 onClick={() => setSelectedChat(chat.id)}
-                className={`p-4 border-b border-gray-100 cursor-pointer hover:bg-gray-50 ${
-                  selectedChat === chat.id ? 'bg-blue-50' : ''
+                className={`p-4 border-b border-[#A7ABAA]/20 cursor-pointer hover:bg-[#EFF6EF] ${
+                  selectedChat === chat.id ? 'bg-[#EFF6EF]' : ''
                 }`}
               >
                 <div className="flex space-x-3">
@@ -131,24 +131,22 @@ const TelegramSection: React.FC = () => {
                       className="w-10 h-10 rounded-full"
                     />
                     {chat.isOnline && (
-                      <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></div>
+                      <div className="absolute bottom-0 right-0 w-3 h-3 bg-[#245D33] border-2 border-white rounded-full"></div>
                     )}
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex justify-between items-baseline">
                       <div>
-                        <h3 className="text-sm font-medium truncate">{chat.name}</h3>
-                        {chat.username && (
-                          <p className="text-xs text-gray-500">{chat.username}</p>
-                        )}
+                        <h3 className="text-sm font-medium text-[#465357]">{chat.name}</h3>
+                        <p className="text-xs text-[#A7ABAA]">{chat.username}</p>
                       </div>
-                      <span className="text-xs text-gray-500">{chat.timestamp}</span>
+                      <span className="text-xs text-[#A7ABAA]">{chat.timestamp}</span>
                     </div>
-                    <p className="text-sm text-gray-500 truncate mt-1">{chat.lastMessage}</p>
+                    <p className="text-sm text-[#A7ABAA] truncate mt-1">{chat.lastMessage}</p>
                   </div>
                   {chat.unread && (
                     <div className="flex-shrink-0">
-                      <span className="inline-flex items-center justify-center h-5 w-5 rounded-full bg-blue-100 text-blue-800 text-xs font-medium">
+                      <span className="inline-flex items-center justify-center h-5 w-5 rounded-full bg-[#245D33] text-white text-xs font-medium">
                         {chat.unread}
                       </span>
                     </div>
@@ -164,7 +162,7 @@ const TelegramSection: React.FC = () => {
           {selectedChat ? (
             <>
               {/* Заголовок чата */}
-              <div className="px-6 py-4 border-b border-gray-200">
+              <div className="px-6 py-4 border-b border-[#A7ABAA]/20">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-3">
                     <img
@@ -173,21 +171,13 @@ const TelegramSection: React.FC = () => {
                       className="w-8 h-8 rounded-full"
                     />
                     <div>
-                      <div className="font-medium">
+                      <div className="font-medium text-[#465357]">
                         {chats.find(chat => chat.id === selectedChat)?.name}
                       </div>
-                      <div className="text-xs text-gray-500">
+                      <div className="text-xs text-[#A7ABAA]">
                         {chats.find(chat => chat.id === selectedChat)?.username}
                       </div>
                     </div>
-                  </div>
-                  <div className="flex space-x-2">
-                    <button className="p-2 hover:bg-gray-100 rounded-full">
-                      <Phone className="w-5 h-5 text-gray-500" />
-                    </button>
-                    <button className="p-2 hover:bg-gray-100 rounded-full">
-                      <MoreVertical className="w-5 h-5 text-gray-500" />
-                    </button>
                   </div>
                 </div>
               </div>
@@ -206,11 +196,11 @@ const TelegramSection: React.FC = () => {
                       )}
                       <div className={`max-w-[70%] rounded-lg py-2 px-4 ${
                         message.isSent 
-                          ? 'bg-blue-500 text-white' 
-                          : 'bg-gray-100'
+                          ? 'bg-[#245D33] text-white' 
+                          : 'bg-[#EFF6EF] text-[#465357]'
                       }`}>
                         <p className="text-sm">{message.text}</p>
-                        <span className={`text-xs ${message.isSent ? 'text-blue-100' : 'text-gray-500'} mt-1`}>
+                        <span className={`text-xs ${message.isSent ? 'text-white/80' : 'text-[#A7ABAA]'} mt-1`}>
                           {message.timestamp}
                         </span>
                       </div>
@@ -220,36 +210,36 @@ const TelegramSection: React.FC = () => {
               </div>
 
               {/* Ввод сообщения */}
-              <div className="p-4 border-t border-gray-200">
+              <div className="p-4 border-t border-[#A7ABAA]/20">
                 <div className="flex items-center space-x-2">
-                  <button className="p-2 hover:bg-gray-100 rounded-full">
-                    <Paperclip className="w-5 h-5 text-gray-500" />
+                  <button className="p-2 hover:bg-[#EFF6EF] rounded-full">
+                    <Paperclip className="w-5 h-5 text-[#A7ABAA]" />
                   </button>
                   <input
                     type="text"
                     value={messageText}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setMessageText(e.target.value)}
+                    onChange={(e) => setMessageText(e.target.value)}
                     onKeyPress={handleKeyPress}
                     placeholder="Написать сообщение..."
-                    className="flex-1 border border-gray-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="flex-1 bg-[#EFF6EF] border border-[#A7ABAA]/20 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#245D33]"
                   />
                   {messageText.trim() ? (
                     <button 
                       onClick={handleSendMessage}
-                      className="p-2 bg-blue-500 text-white rounded-full hover:bg-blue-600"
+                      className="p-2 bg-[#245D33] text-white rounded-full hover:bg-[#245D33]/90"
                     >
                       <Send className="w-5 h-5" />
                     </button>
                   ) : (
-                    <button className="p-2 hover:bg-gray-100 rounded-full">
-                      <Send className="w-5 h-5 text-gray-500" />
+                    <button className="p-2 hover:bg-[#EFF6EF] rounded-full">
+                      <Send className="w-5 h-5 text-[#A7ABAA]" />
                     </button>
                   )}
                 </div>
               </div>
             </>
           ) : (
-            <div className="flex-1 flex items-center justify-center text-gray-500">
+            <div className="flex-1 flex items-center justify-center text-[#A7ABAA]">
               Выберите чат для просмотра
             </div>
           )}

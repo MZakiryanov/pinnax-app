@@ -1,6 +1,5 @@
-// src/components/personal/sections/FacebookSection/index.tsx
 import React, { useState } from 'react';
-import { Search, Phone, Video, Info } from 'lucide-react';
+import { Search } from 'lucide-react';
 
 interface Chat {
   id: string;
@@ -12,8 +11,16 @@ interface Chat {
   isOnline: boolean;
 }
 
+interface Message {
+  id: string;
+  text: string;
+  timestamp: string;
+  isSent: boolean;
+}
+
 const FacebookSection: React.FC = () => {
   const [selectedChat, setSelectedChat] = useState<string | null>(null);
+  const [messageText, setMessageText] = useState('');
 
   const chats: Chat[] = [
     {
@@ -35,27 +42,49 @@ const FacebookSection: React.FC = () => {
     }
   ];
 
+  const messages: Message[] = [
+    {
+      id: '1',
+      text: 'Здравствуйте! Подскажите, мой заказ уже в пути?',
+      timestamp: '14:25',
+      isSent: false
+    },
+    {
+      id: '2',
+      text: 'Да, заказ передан курьеру. Прибудет примерно через 30 минут.',
+      timestamp: '14:30',
+      isSent: true
+    }
+  ];
+
+  const handleSendMessage = () => {
+    if (messageText.trim()) {
+      // Здесь будет логика отправки сообщения
+      setMessageText('');
+    }
+  };
+
   return (
     <div className="h-[calc(100vh-180px)] bg-white rounded-lg shadow-sm overflow-hidden flex flex-col">
       {/* Статистика */}
-      <div className="w-full bg-white border-b border-gray-200">
+      <div className="w-full bg-white border-b border-[#A7ABAA]/20">
         <div className="flex items-center justify-between px-6 py-4">
           <div className="flex items-center space-x-2">
-            <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-            <span className="text-sm font-medium">Facebook подключен</span>
+            <div className="w-2 h-2 bg-[#245D33] rounded-full"></div>
+            <span className="text-sm font-medium text-[#465357]">Facebook подключен</span>
           </div>
           <div className="flex space-x-8">
             <div>
-              <div className="text-sm text-gray-600">Конверсия в заказы</div>
-              <div className="text-lg font-semibold">28%</div>
+              <div className="text-sm text-[#A7ABAA]">Конверсия в заказы</div>
+              <div className="text-lg font-semibold text-[#465357]">28%</div>
             </div>
             <div>
-              <div className="text-sm text-gray-600">Среднее время ответа</div>
-              <div className="text-lg font-semibold">3.2 мин</div>
+              <div className="text-sm text-[#A7ABAA]">Среднее время ответа</div>
+              <div className="text-lg font-semibold text-[#465357]">3.2 мин</div>
             </div>
             <div>
-              <div className="text-sm text-gray-600">Активные чаты</div>
-              <div className="text-lg font-semibold">15</div>
+              <div className="text-sm text-[#A7ABAA]">Активные чаты</div>
+              <div className="text-lg font-semibold text-[#465357]">15</div>
             </div>
           </div>
         </div>
@@ -63,15 +92,15 @@ const FacebookSection: React.FC = () => {
 
       <div className="flex flex-1">
         {/* Список чатов */}
-        <div className="w-80 border-r border-gray-200 flex flex-col">
-          <div className="p-4 border-b border-gray-200">
+        <div className="w-80 border-r border-[#A7ABAA]/20 flex flex-col">
+          <div className="p-4 border-b border-[#A7ABAA]/20">
             <div className="relative">
               <input
                 type="text"
                 placeholder="Поиск в Facebook..."
-                className="w-full pl-10 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full pl-10 pr-4 py-2 bg-[#EFF6EF] border border-[#A7ABAA]/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#245D33]"
               />
-              <Search className="w-5 h-5 text-gray-400 absolute left-3 top-2.5" />
+              <Search className="w-5 h-5 text-[#A7ABAA] absolute left-3 top-2.5" />
             </div>
           </div>
 
@@ -80,8 +109,8 @@ const FacebookSection: React.FC = () => {
               <div
                 key={chat.id}
                 onClick={() => setSelectedChat(chat.id)}
-                className={`p-4 border-b border-gray-100 cursor-pointer hover:bg-gray-50 ${
-                  selectedChat === chat.id ? 'bg-blue-50' : ''
+                className={`p-4 border-b border-[#A7ABAA]/20 cursor-pointer hover:bg-[#EFF6EF] ${
+                  selectedChat === chat.id ? 'bg-[#EFF6EF]' : ''
                 }`}
               >
                 <div className="flex space-x-3">
@@ -92,19 +121,19 @@ const FacebookSection: React.FC = () => {
                       className="w-10 h-10 rounded-full"
                     />
                     {chat.isOnline && (
-                      <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></div>
+                      <div className="absolute bottom-0 right-0 w-3 h-3 bg-[#245D33] border-2 border-white rounded-full"></div>
                     )}
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex justify-between items-baseline">
-                      <h3 className="text-sm font-medium truncate">{chat.name}</h3>
-                      <span className="text-xs text-gray-500">{chat.timestamp}</span>
+                      <h3 className="text-sm font-medium text-[#465357] truncate">{chat.name}</h3>
+                      <span className="text-xs text-[#A7ABAA]">{chat.timestamp}</span>
                     </div>
-                    <p className="text-sm text-gray-500 truncate">{chat.lastMessage}</p>
+                    <p className="text-sm text-[#A7ABAA] truncate mt-1">{chat.lastMessage}</p>
                   </div>
                   {chat.unread && (
                     <div className="flex-shrink-0">
-                      <span className="inline-flex items-center justify-center h-5 w-5 rounded-full bg-blue-100 text-blue-800 text-xs font-medium">
+                      <span className="inline-flex items-center justify-center h-5 w-5 rounded-full bg-[#245D33] text-white text-xs font-medium">
                         {chat.unread}
                       </span>
                     </div>
@@ -120,7 +149,7 @@ const FacebookSection: React.FC = () => {
           {selectedChat ? (
             <>
               {/* Заголовок чата */}
-              <div className="px-6 py-4 border-b border-gray-200">
+              <div className="px-6 py-4 border-b border-[#A7ABAA]/20">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-3">
                     <img
@@ -129,25 +158,13 @@ const FacebookSection: React.FC = () => {
                       className="w-8 h-8 rounded-full"
                     />
                     <div>
-                      <div className="font-medium">
+                      <div className="font-medium text-[#465357]">
                         {chats.find(chat => chat.id === selectedChat)?.name}
                       </div>
-                      <div className="text-sm text-gray-500">
-                        {chats.find(chat => chat.id === selectedChat)?.isOnline ? 
-                          'Онлайн' : 'Был(а) недавно'}
+                      <div className="text-xs text-[#A7ABAA]">
+                        {chats.find(chat => chat.id === selectedChat)?.isOnline ? 'В сети' : 'Был(а) недавно'}
                       </div>
                     </div>
-                  </div>
-                  <div className="flex space-x-2">
-                    <button className="p-2 hover:bg-gray-100 rounded-full">
-                      <Phone className="w-5 h-5 text-gray-500" />
-                    </button>
-                    <button className="p-2 hover:bg-gray-100 rounded-full">
-                      <Video className="w-5 h-5 text-gray-500" />
-                    </button>
-                    <button className="p-2 hover:bg-gray-100 rounded-full">
-                      <Info className="w-5 h-5 text-gray-500" />
-                    </button>
                   </div>
                 </div>
               </div>
@@ -155,44 +172,55 @@ const FacebookSection: React.FC = () => {
               {/* Сообщения */}
               <div className="flex-1 p-6 overflow-y-auto">
                 <div className="space-y-4">
-                  <div className="flex justify-start">
-                    <div className="flex space-x-2">
-                      <img
-                        src={chats.find(chat => chat.id === selectedChat)?.avatar}
-                        alt=""
-                        className="w-8 h-8 rounded-full"
-                      />
-                      <div className="bg-gray-100 rounded-lg py-2 px-4 max-w-[70%]">
-                        <p className="text-sm">Здравствуйте, можно узнать стоимость доставки?</p>
-                        <span className="text-xs text-gray-500 mt-1">14:25</span>
+                  {messages.map((message) => (
+                    <div key={message.id} className={`flex ${message.isSent ? 'justify-end' : 'justify-start'}`}>
+                      {!message.isSent && (
+                        <img
+                          src={chats.find(chat => chat.id === selectedChat)?.avatar}
+                          alt=""
+                          className="w-8 h-8 rounded-full mr-2"
+                        />
+                      )}
+                      <div className={`max-w-[70%] rounded-2xl py-2 px-4 ${
+                        message.isSent 
+                          ? 'bg-[#245D33] text-white' 
+                          : 'bg-[#EFF6EF] text-[#465357]'
+                      }`}>
+                        <p className="text-sm">{message.text}</p>
+                        <span className={`text-xs ${message.isSent ? 'text-white/80' : 'text-[#A7ABAA]'} mt-1`}>
+                          {message.timestamp}
+                        </span>
                       </div>
                     </div>
-                  </div>
-                  <div className="flex justify-end">
-                    <div className="bg-blue-500 text-white rounded-lg py-2 px-4 max-w-[70%]">
-                      <p className="text-sm">Здравствуйте! Доставка бесплатная при заказе от 5000 ₸</p>
-                      <span className="text-xs text-blue-100 mt-1">14:30</span>
-                    </div>
-                  </div>
+                  ))}
                 </div>
               </div>
 
               {/* Ввод сообщения */}
-              <div className="p-4 border-t border-gray-200">
+              <div className="p-4 border-t border-[#A7ABAA]/20">
                 <div className="flex space-x-4">
                   <input
                     type="text"
+                    value={messageText}
+                    onChange={(e) => setMessageText(e.target.value)}
                     placeholder="Введите сообщение..."
-                    className="flex-1 border border-gray-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="flex-1 bg-[#EFF6EF] border border-[#A7ABAA]/20 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#245D33]"
                   />
-                  <button className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
+                  <button 
+                    onClick={handleSendMessage}
+                    className={`px-4 py-2 rounded-lg transition-colors duration-200 ${
+                      messageText.trim() 
+                        ? 'bg-[#245D33] text-white hover:bg-[#245D33]/90' 
+                        : 'bg-[#EFF6EF] text-[#A7ABAA]'
+                    }`}
+                  >
                     Отправить
                   </button>
                 </div>
               </div>
             </>
           ) : (
-            <div className="flex-1 flex items-center justify-center text-gray-500">
+            <div className="flex-1 flex items-center justify-center text-[#A7ABAA]">
               Выберите чат для просмотра
             </div>
           )}
